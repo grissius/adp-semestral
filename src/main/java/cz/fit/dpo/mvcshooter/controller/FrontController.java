@@ -1,7 +1,7 @@
 package cz.fit.dpo.mvcshooter.controller;
 
 import cz.fit.dpo.mvcshooter.model.Model;
-import cz.fit.dpo.mvcshooter.view.Canvas;
+import cz.fit.dpo.mvcshooter.view.View;
 
 import java.awt.event.KeyEvent;
 
@@ -11,9 +11,9 @@ import java.awt.event.KeyEvent;
 public class FrontController {
 
     Model model;
-    Canvas view;
+    View view;
 
-    public FrontController(Model model, Canvas view) {
+    public FrontController(Model model, View view) {
         this.model = model;
         this.view = view;
     }
@@ -21,28 +21,24 @@ public class FrontController {
     public void runGame() {
         Thread thread = new Thread(() -> {
             while (true) {
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                model.tick();
-                view.thisIsHowYouForceGuiToRepaint();
+                Thread inner = new Thread(() -> {
+                    model.tick();
+                });
+                inner.start();
             }
         });
         thread.start();
-        System.out.println('-');
     }
 
     public void handleKeyboard(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 System.out.println("Move up");
-                model.getSling().move(-1);
+                model.getSling().carry(-1);
                 break;
             case KeyEvent.VK_DOWN:
                 System.out.println("Move down");
-                model.getSling().move(1);
+                model.getSling().carry(1);
                 break;
         }
     }

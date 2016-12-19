@@ -6,7 +6,7 @@ import cz.fit.dpo.mvcshooter.model.object.Sling;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  *
@@ -25,8 +25,10 @@ public class Canvas extends JPanel {
         this.setVisible(true);        
     }
     
-    public void thisIsHowYouForceGuiToRepaint() {        
+    public void thisIsHowYouForceGuiToRepaint() {
+        System.out.println("redraw");
         repaint();
+
     }
 
     @Override

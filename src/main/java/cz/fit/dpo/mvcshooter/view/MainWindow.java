@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class MainWindow extends JFrame {
 
-    public MainWindow(Canvas view, final FrontController controller, Model model) {
+    public MainWindow(View view, final FrontController controller, Model model) {
         try {
 
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +36,7 @@ public class MainWindow extends JFrame {
                 }
             });
 
-            this.add(view);
+            this.add(view.getCanvas());
             this.pack();
         } catch (Exception ex) {
             ex.printStackTrace(System.err);

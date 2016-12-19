@@ -40,7 +40,7 @@ public class GraphicsDrawer {
     public void drawGameObject(Graphics g, GameObject object) {
         Vector center = object.getCenter();
         g.drawImage(cannonImage, 
-              center.getX(),
-              center.getY(), null);
+                (int)center.getX(),
+                (int)center.getY(), null);
     }
 }

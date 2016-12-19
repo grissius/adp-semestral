@@ -1,11 +1,16 @@
 package cz.fit.dpo.mvcshooter.model;
 
 import cz.fit.dpo.mvcshooter.model.object.Sling;
+import cz.fit.dpo.mvcshooter.pattern.observer.Subject;
+
+import javax.security.auth.callback.Callback;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 /**
  * Created by smolijar on 10/25/16.
  */
-public class Model {
+public class Model extends Subject {
     private float gravity;
     private Sling sling;
 
@@ -31,6 +36,9 @@ public class Model {
     }
 
     public void tick() {
-        System.out.println('.');
+        if(sling.move()) {
+            System.out.print('.');
+            notifyObservers();
+        }
     }
 }
