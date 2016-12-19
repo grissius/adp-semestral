@@ -8,6 +8,8 @@ import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
 public class Projectile extends GameObject {
     public Projectile(Sling sling) {
         super();
+        size.setX(30);
+        size.setY(29);
         location.setX(sling.location.getX());
         location.setY(sling.location.getY());
         direction.setX(4);

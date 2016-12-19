@@ -89,4 +89,10 @@ public class Vector {
         x /= divisor;
         y /= divisor;
     }
+
+    public double distance(Vector other) {
+        double a = getX() - other.getX();
+        double b = getY() - other.getY();
+        return Math.sqrt(a*a + b*b);
+    }
 }

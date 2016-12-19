@@ -88,6 +88,16 @@ public class Model extends Subject {
                 removedEnemies.add(e);
             }
         }
+
+        for (Projectile p: projectiles) {
+            for (Enemy e: enemies) {
+                if (p.collides(e)) {
+                    removedEnemies.add(e);
+                    System.out.println("Score");
+                }
+            }
+        }
+
         enemies.removeAll(removedEnemies);
         for (int i = 0; i < removedEnemies.size(); ++i) {
             this.enemies.add(new Enemy(width, height));
@@ -95,7 +105,7 @@ public class Model extends Subject {
 
 
         if(changed) {
-            System.out.print('.');
+//            System.out.print('.');
             notifyObservers();
         }
     }

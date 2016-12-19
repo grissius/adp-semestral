@@ -36,6 +36,10 @@ public class GameObject implements VisitableElement {
         return false;
     }
 
+    public boolean collides(GameObject object) {
+        return location.distance(object.location) < (Math.min(size.getX(), size.getY()) + Math.min(object.size.getX(), object.size.getY())) / 2;
+    }
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visitGameObject(this);

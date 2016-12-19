@@ -7,6 +7,8 @@ import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
  */
 public class Enemy extends GameObject {
     public Enemy(int w, int h) {
+        size.setX(30);
+        size.setY(29);
         this.location.setX(Math.random() * w);
         this.location.setY(Math.random() * h);
         this.bounded = false;
