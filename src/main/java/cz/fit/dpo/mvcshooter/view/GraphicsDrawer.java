@@ -1,6 +1,9 @@
 package cz.fit.dpo.mvcshooter.view;
 
-import cz.fit.dpo.mvcshooter.Cannon;
+import cz.fit.dpo.mvcshooter.model.object.GameObject;
+import cz.fit.dpo.mvcshooter.model.object.Sling;
+import cz.fit.dpo.mvcshooter.model.object.Vector;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -34,33 +37,10 @@ public class GraphicsDrawer {
     }
         
     
-    public void drawCannon(Graphics g, Cannon cannon) {
+    public void drawGameObject(Graphics g, GameObject object) {
+        Vector center = object.getCenter();
         g.drawImage(cannonImage, 
-              cannon.getX() - cannonImage.getWidth()/2, 
-              cannon.getY() - cannonImage.getHeight()/2, null);
+              center.getX(),
+              center.getY(), null);
     }
-    
-    public void drawMissile(Graphics g, Missile missile) {
-        
-    }
-    
-    public void drawEnemy(Graphics g, Enemy enemy) {
-        
-    }
-    
-    public void drawCollision(Graphics g, Collision collision) {        
-        
-    }
-    
-    public void drawInfo(Graphics g, ModelInfo info) {
-        
-    }
-    
-    
-    // fake classes just to satisfy compilator
-    class Missile{}
-    class Collision{}
-    class Enemy {}
-    class ModelInfo {}
-
 }

@@ -1,5 +1,8 @@
 package cz.fit.dpo.mvcshooter.view;
 
+import cz.fit.dpo.mvcshooter.controller.FrontController;
+import cz.fit.dpo.mvcshooter.model.Model;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
@@ -13,10 +16,8 @@ import javax.swing.JOptionPane;
  */
 public class MainWindow extends JFrame {
 
-
-    public MainWindow() {
+    public MainWindow(Canvas view, final FrontController controller, Model model) {
         try {
-            Canvas view = new Canvas(0, 0, 500, 500);
 
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setTitle("MyShooter");
@@ -31,7 +32,7 @@ public class MainWindow extends JFrame {
                 @Override
                 public void keyPressed(KeyEvent evt) {
                     // delegate to controller
-                    System.out.println("key pressed: " + evt.getKeyChar());
+                    controller.handleKeyboard(evt);
                 }
             });
 
@@ -40,6 +41,7 @@ public class MainWindow extends JFrame {
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
         }
+        controller.runGame();
     }
     
     public void showHelp() {
