@@ -27,16 +27,16 @@ public class Model extends Subject {
         this.gravity = gravity;
     }
 
-    public Sling getSling() {
+    public synchronized Sling getSling() {
         return sling;
     }
 
-    public void setSling(Sling sling) {
+    public synchronized void setSling(Sling sling) {
         this.sling = sling;
     }
 
     public void tick() {
-        if(sling.move()) {
+        if(getSling().move()) {
             System.out.print('.');
             notifyObservers();
         }

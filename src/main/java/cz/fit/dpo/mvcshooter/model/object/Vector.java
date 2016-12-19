@@ -12,6 +12,16 @@ public class Vector {
         this.y = y;
     }
 
+    public Vector add(Vector other) {
+        this.addX(other.getX());
+        this.addY(other.getY());
+        return this;
+    }
+
+    public boolean isZero() {
+        return this.getX() + this.getY() == 0;
+    }
+
     public double getX() {
         return x;
     }
@@ -65,22 +75,13 @@ public class Vector {
     }
 
     public void diminish() {
-        double value = 0.1 * Math.signum(x) * (-1);
-        if(Math.abs(x) <= 1) {
+        if (Math.abs(x) <= 1) {
             x = 0;
         }
-        else {
-            x+= value;
-        }
-        value = 0.5 * Math.signum(y) * (-1);
-        if(Math.abs(y) <= 1) {
+        if (Math.abs(y) <= 1) {
             y = 0;
         }
-        else {
-            y+= value;
-        }
-
-//        x /= 2;
-//        y /= 2;
+        x /= 1.2;
+        y /= 1.2;
     }
 }

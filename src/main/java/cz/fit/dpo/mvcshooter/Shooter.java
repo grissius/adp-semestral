@@ -22,7 +22,6 @@ public class Shooter {
         model.registerObserver(view);
 
         SwingUtilities.invokeLater(new Runnable(){
-
             @Override
             public void run() {
                new MainWindow(view,controller,model).setVisible(true);

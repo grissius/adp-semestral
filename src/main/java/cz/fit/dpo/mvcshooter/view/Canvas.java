@@ -26,9 +26,7 @@ public class Canvas extends JPanel {
     }
     
     public void thisIsHowYouForceGuiToRepaint() {
-        System.out.println("redraw");
-        repaint();
-
+        SwingUtilities.invokeLater(this::repaint);
     }
 
     @Override

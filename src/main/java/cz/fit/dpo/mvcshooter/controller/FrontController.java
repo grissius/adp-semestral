@@ -21,10 +21,12 @@ public class FrontController {
     public void runGame() {
         Thread thread = new Thread(() -> {
             while (true) {
-                Thread inner = new Thread(() -> {
+                try {
                     model.tick();
-                });
-                inner.start();
+                    Thread.sleep(33);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         thread.start();
@@ -33,11 +35,9 @@ public class FrontController {
     public void handleKeyboard(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                System.out.println("Move up");
                 model.getSling().carry(-1);
                 break;
             case KeyEvent.VK_DOWN:
-                System.out.println("Move down");
                 model.getSling().carry(1);
                 break;
         }

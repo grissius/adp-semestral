@@ -10,19 +10,14 @@ public class Sling extends GameObject {
         size.setY(69);
         location.setX(10);
         location.setY(250);
-//        direction.setX(2);
-//        direction.setY(2);
     }
-    public void carry(int value) {
-//        location.addY(value*3);
-        direction.addY(value*3);
+    public synchronized void carry(int value) {
+        direction.addY(3*value);
     }
 
-    public boolean move() {
-        if(direction.getX() + direction.getY() != 0) {
-//            System.out.println(location);
-            location.addX(direction.getX());
-            location.addY(direction.getY());
+    public synchronized boolean move() {
+        if(!direction.isZero()) {
+            location.add(direction);
             direction.diminish();
             return true;
         }
