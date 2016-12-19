@@ -12,8 +12,8 @@ public class Projectile extends GameObject {
         size.setY(29);
         location.setX(sling.location.getX());
         location.setY(sling.location.getY());
-        direction.setX(4);
-        direction.setY(0);
+        direction.setX(4*Math.cos(sling.getAngle()));
+        direction.setY(4*Math.sin(sling.getAngle()));
         bounded = false;
     }
 

@@ -11,11 +11,13 @@ import java.awt.image.BufferedImage;
 public class GraphicsVisitor implements Visitor {
     private Vector location;
     private GraphicsDrawer.Image image;
+    private float angle;
 
     @Override
     public void visitSling(Sling sling) {
         visitGameObject(sling);
         image = GraphicsDrawer.Image.CANNON;
+        angle = sling.getAngle();
     }
 
     @Override
@@ -27,6 +29,7 @@ public class GraphicsVisitor implements Visitor {
     @Override
     public void visitGameObject(GameObject gameObject) {
         location = gameObject.getCenter();
+        angle = 0;
     }
 
     @Override
@@ -45,5 +48,9 @@ public class GraphicsVisitor implements Visitor {
 
     public GraphicsDrawer.Image getImage() {
         return image;
+    }
+
+    public float getAngle() {
+        return angle;
     }
 }

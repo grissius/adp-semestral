@@ -6,6 +6,8 @@ import cz.fit.dpo.mvcshooter.model.object.Vector;
 import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
 
 import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -64,6 +66,14 @@ public class GraphicsDrawer {
     public void drawGameObject(Graphics g, GameObject object) {
         GraphicsVisitor visitor = new GraphicsVisitor();
         object.accept(visitor);
-        g.drawImage(getImage(visitor.getImage()), visitor.getX(), visitor.getY(), null);
+
+
+        double rotationRequired = visitor.getAngle();
+        double locationX = 25/2;
+        double locationY = 69/2;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+        g.drawImage(op.filter(getImage(visitor.getImage()), null), visitor.getX(), visitor.getY(), null);
     }
 }
