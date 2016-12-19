@@ -64,13 +64,13 @@ public class GraphicsDrawer {
         GraphicsVisitor visitor = new GraphicsVisitor();
         object.accept(visitor);
 
-
+        // image rotation
         double rotationRequired = visitor.getAngle();
-        double locationX = 25/2;
-        double locationY = 69/2;
+        double locationX = visitor.getSize().getX()/2;
+        double locationY = visitor.getSize().getY()/2;
         AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
-        g.drawImage(op.filter(getImage(visitor.getImage()), null), visitor.getX(), visitor.getY(), null);
+        g.drawImage(op.filter(getImage(visitor.getImage()), null), (int)visitor.getLocation().getX(), (int)visitor.getLocation().getY(), null);
     }
 }

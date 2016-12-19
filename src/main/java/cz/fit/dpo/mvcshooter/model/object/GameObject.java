@@ -13,6 +13,7 @@ public class GameObject implements VisitableElement {
     protected Vector direction;
     protected float velocity;
     protected boolean bounded = true;
+    private float angle = 0;
 
     public GameObject() {
         size = new Vector(0,0);
@@ -52,5 +53,17 @@ public class GameObject implements VisitableElement {
 
     public Vector getLocation() {
         return location;
+    }
+
+    public Vector getSize() {
+        return size;
+    }
+
+    public void turn(float value) {
+        this.angle += value / 10;
+    }
+
+    public float getAngle() {
+        return angle;
     }
 }

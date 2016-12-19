@@ -8,8 +8,6 @@ import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
  */
 public class Sling extends GameObject {
 
-    private float angle = 0;
-
     public Sling() {
         super();
         size.setX(25);
@@ -33,11 +31,4 @@ public class Sling extends GameObject {
         visitor.visitSling(this);
     }
 
-    public void turn(int value) {
-        this.angle += (float) value / 10;
-    }
-
-    public float getAngle() {
-        return angle;
-    }
 }

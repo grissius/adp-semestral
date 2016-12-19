@@ -12,6 +12,7 @@ import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
  */
 public class GraphicsVisitor implements Visitor {
     private Vector location;
+    private Vector size;
     private GraphicsDrawer.Image image;
     private float angle;
 
@@ -19,7 +20,6 @@ public class GraphicsVisitor implements Visitor {
     public void visitSling(Sling sling) {
         visitGameObject(sling);
         image = GraphicsDrawer.Image.CANNON;
-        angle = sling.getAngle();
     }
 
     @Override
@@ -31,7 +31,8 @@ public class GraphicsVisitor implements Visitor {
     @Override
     public void visitGameObject(GameObject gameObject) {
         location = gameObject.getCenter();
-        angle = 0;
+        size = gameObject.getSize();
+        angle = gameObject.getAngle();
     }
 
     @Override
@@ -46,12 +47,12 @@ public class GraphicsVisitor implements Visitor {
         image = GraphicsDrawer.Image.ENEMY2;
     }
 
-    public int getX() {
-        return (int)location.getX();
+    public Vector getLocation() {
+        return location;
     }
 
-    public int getY() {
-        return (int)location.getY();
+    public Vector getSize() {
+        return size;
     }
 
     public GraphicsDrawer.Image getImage() {

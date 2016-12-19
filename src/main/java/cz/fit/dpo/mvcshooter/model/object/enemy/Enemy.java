@@ -14,4 +14,10 @@ public abstract class Enemy extends GameObject {
         this.location.setY(Math.random() * h);
         this.bounded = false;
     }
+
+    @Override
+    public synchronized boolean move(int w, int h) {
+        turn((float) (Math.random())-0.5f);
+        return super.move(w, h);
+    }
 }
