@@ -64,7 +64,7 @@ public class Model extends Subject {
     public void tick() {
         boolean changed = false;
         for (GameObject o: getObjects()) {
-            changed |= o.move();
+            changed |= o.move(getWidth(), getHeight());
         }
 
         List<Projectile> removedProjectiles = new ArrayList<>();

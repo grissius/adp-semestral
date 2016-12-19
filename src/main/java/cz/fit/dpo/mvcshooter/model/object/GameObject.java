@@ -11,6 +11,7 @@ public class GameObject implements VisitableElement {
     protected Vector location;
     protected Vector direction;
     protected float velocity;
+    protected boolean bounded = true;
 
     public GameObject() {
         size = new Vector(0,0);
@@ -22,9 +23,14 @@ public class GameObject implements VisitableElement {
         return new Vector(location.getX() - size.getX() / 2, location.getY() - size.getY() / 2);
     }
 
-    public synchronized boolean move() {
+    public synchronized boolean move(int w, int h) {
         if(!direction.isZero()) {
+            Vector lastLocation = new Vector(location);
             location.add(direction);
+            if(bounded && outOfField(w, h)) {
+                location = lastLocation;
+                return false;
+            }
             return true;
         }
         return false;
@@ -36,6 +42,6 @@ public class GameObject implements VisitableElement {
     }
 
     public boolean outOfField(int w, int h) {
-        return location.getX() > w || location.getY() > h;
+        return location.getX() > w || location.getX() < 0 || location.getY() > h || location.getY() < 0;
     }
 }

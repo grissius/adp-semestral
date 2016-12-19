@@ -15,9 +15,9 @@ public class Sling extends GameObject {
     }
 
     @Override
-    public synchronized boolean move() {
+    public synchronized boolean move(int w, int h) {
         direction.diminish();
-        return super.move();
+        return super.move(w, h);
     }
 
     public synchronized void carry(int value) {

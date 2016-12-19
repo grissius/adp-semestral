@@ -10,8 +10,9 @@ public class Projectile extends GameObject {
         super();
         location.setX(sling.location.getX());
         location.setY(sling.location.getY());
-        direction.setX(2);
+        direction.setX(4);
         direction.setY(0);
+        bounded = false;
     }
 
     @Override
