@@ -79,14 +79,14 @@ public class Vector {
         return "[" + x + ", " + y + "]";
     }
 
-    public void diminish() {
+    public void diminish(double divisor) {
         if (Math.abs(x) <= 1) {
             x = 0;
         }
         if (Math.abs(y) <= 1) {
             y = 0;
         }
-        x /= 1.2;
-        y /= 1.2;
+        x /= divisor;
+        y /= divisor;
     }
 }

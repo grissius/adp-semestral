@@ -22,11 +22,11 @@ public class FrontController {
         Thread thread = new Thread(() -> {
             while (true) {
                 try {
-                    model.tick();
                     Thread.sleep(33);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                model.tick();
             }
         });
         thread.start();
@@ -42,7 +42,6 @@ public class FrontController {
                 break;
             case KeyEvent.VK_SPACE:
                 model.fire();
-                System.out.println("fire");
                 break;
         }
     }
