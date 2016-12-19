@@ -3,6 +3,7 @@ package cz.fit.dpo.mvcshooter.view;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.Sling;
 import cz.fit.dpo.mvcshooter.model.object.Vector;
+import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -16,13 +17,20 @@ import javax.imageio.ImageIO;
 public class GraphicsDrawer {
     private static final int INFO_X = 5;
     private static final int INFO_Y = 15;
-    
+
+    public static enum Image {
+        CANNON,
+        ENEMY1,
+        ENEMY2,
+        MISSILE,
+        COLLISION
+    }
+
     private BufferedImage cannonImage;
     private BufferedImage enemyImage1;
     private BufferedImage enemyImage2;
     private BufferedImage missileImage;
     private BufferedImage collisionImage;
- 
 
     public GraphicsDrawer() {
         try {
@@ -35,12 +43,27 @@ public class GraphicsDrawer {
             ex.printStackTrace(System.err);
         }
     }
-        
+
+
+    private BufferedImage getImage(Image image) {
+        switch (image) {
+            case CANNON:
+                return cannonImage;
+            case ENEMY1:
+                return enemyImage1;
+            case ENEMY2:
+                return enemyImage2;
+            case MISSILE:
+                return missileImage;
+            case COLLISION:
+                return collisionImage;
+        }
+        return collisionImage;
+    }
     
     public void drawGameObject(Graphics g, GameObject object) {
-        Vector center = object.getCenter();
-        g.drawImage(cannonImage, 
-                (int)center.getX(),
-                (int)center.getY(), null);
+        GraphicsVisitor visitor = new GraphicsVisitor();
+        object.accept(visitor);
+        g.drawImage(getImage(visitor.getImage()), visitor.getX(), visitor.getY(), null);
     }
 }

@@ -1,11 +1,13 @@
 package cz.fit.dpo.mvcshooter.view;
 
 import cz.fit.dpo.mvcshooter.model.Model;
+import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.Sling;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.*;
 
 /**
@@ -26,13 +28,15 @@ public class Canvas extends JPanel {
     }
     
     public void thisIsHowYouForceGuiToRepaint() {
-        SwingUtilities.invokeLater(this::repaint);
+        repaint(0);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawer.drawGameObject(g, model.getSling());
+        for (GameObject o: model.getObjects()) {
+            drawer.drawGameObject(g, o);
+        }
     }
     
 }

@@ -40,6 +40,10 @@ public class FrontController {
             case KeyEvent.VK_DOWN:
                 model.getSling().carry(1);
                 break;
+            case KeyEvent.VK_SPACE:
+                model.fire();
+                System.out.println("fire");
+                break;
         }
     }
 }
