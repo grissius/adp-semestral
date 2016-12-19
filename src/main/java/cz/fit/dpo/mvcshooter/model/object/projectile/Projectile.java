@@ -1,5 +1,7 @@
-package cz.fit.dpo.mvcshooter.model.object;
+package cz.fit.dpo.mvcshooter.model.object.projectile;
 
+import cz.fit.dpo.mvcshooter.model.object.GameObject;
+import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
 import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
 
 /**
@@ -10,8 +12,8 @@ public class Projectile extends GameObject {
         super();
         size.setX(30);
         size.setY(29);
-        location.setX(sling.location.getX());
-        location.setY(sling.location.getY());
+        location.setX(sling.getLocation().getX());
+        location.setY(sling.getLocation().getY());
         direction.setX(4*Math.cos(sling.getAngle()));
         direction.setY(4*Math.sin(sling.getAngle()));
         bounded = false;

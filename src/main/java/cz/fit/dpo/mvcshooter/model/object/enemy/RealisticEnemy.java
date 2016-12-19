@@ -1,22 +1,18 @@
-package cz.fit.dpo.mvcshooter.model.object;
+package cz.fit.dpo.mvcshooter.model.object.enemy;
 
 import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
 
 /**
  * Created by smolijar on 10/25/16.
  */
-public class Enemy extends GameObject {
-    public Enemy(int w, int h) {
-        size.setX(30);
-        size.setY(29);
-        this.location.setX(Math.random() * w);
-        this.location.setY(Math.random() * h);
-        this.bounded = false;
+public class RealisticEnemy extends Enemy {
+    public RealisticEnemy(int w, int h) {
+        super(w, h);
     }
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visitEnemy(this);
+        visitor.visitRealisticEnemy(this);
     }
 
     @Override

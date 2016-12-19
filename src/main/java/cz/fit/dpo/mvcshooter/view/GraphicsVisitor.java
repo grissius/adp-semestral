@@ -1,9 +1,11 @@
 package cz.fit.dpo.mvcshooter.view;
 
 import cz.fit.dpo.mvcshooter.model.object.*;
+import cz.fit.dpo.mvcshooter.model.geometry.Vector;
+import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
+import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;
+import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
 import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
-
-import java.awt.image.BufferedImage;
 
 /**
  * Created by smolijar on 12/19/16.
@@ -33,9 +35,15 @@ public class GraphicsVisitor implements Visitor {
     }
 
     @Override
-    public void visitEnemy(Enemy enemy) {
+    public void visitSimpleEnemy(Enemy enemy) {
         visitGameObject(enemy);
         image = GraphicsDrawer.Image.ENEMY1;
+    }
+
+    @Override
+    public void visitRealisticEnemy(Enemy enemy) {
+        visitGameObject(enemy);
+        image = GraphicsDrawer.Image.ENEMY2;
     }
 
     public int getX() {

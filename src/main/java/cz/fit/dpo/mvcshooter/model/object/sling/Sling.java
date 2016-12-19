@@ -1,5 +1,6 @@
-package cz.fit.dpo.mvcshooter.model.object;
+package cz.fit.dpo.mvcshooter.model.object.sling;
 
+import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
 
 /**

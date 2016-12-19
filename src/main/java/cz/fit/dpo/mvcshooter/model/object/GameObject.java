@@ -1,5 +1,6 @@
 package cz.fit.dpo.mvcshooter.model.object;
 
+import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.pattern.visitor.VisitableElement;
 import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
 
@@ -47,5 +48,9 @@ public class GameObject implements VisitableElement {
 
     public boolean outOfField(int w, int h) {
         return location.getX() > w || location.getX() < 0 || location.getY() > h || location.getY() < 0;
+    }
+
+    public Vector getLocation() {
+        return location;
     }
 }

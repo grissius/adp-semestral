@@ -1,9 +1,6 @@
 package cz.fit.dpo.mvcshooter.view;
 
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
-import cz.fit.dpo.mvcshooter.model.object.Sling;
-import cz.fit.dpo.mvcshooter.model.object.Vector;
-import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
 
 import java.awt.Graphics;
 import java.awt.geom.AffineTransform;

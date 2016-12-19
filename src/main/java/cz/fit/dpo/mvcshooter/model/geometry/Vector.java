@@ -1,4 +1,4 @@
-package cz.fit.dpo.mvcshooter.model.object;
+package cz.fit.dpo.mvcshooter.model.geometry;
 
 /**
  * Created by smolijar on 10/25/16.

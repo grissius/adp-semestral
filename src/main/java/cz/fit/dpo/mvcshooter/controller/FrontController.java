@@ -56,6 +56,14 @@ public class FrontController {
             case KeyEvent.VK_SPACE:
                 model.fire();
                 break;
+            case KeyEvent.VK_R:
+                model.turnRealistic();
+                System.out.println("realistic mode");
+                break;
+            case KeyEvent.VK_S:
+                model.turnSimple();
+                System.out.println("simple mode");
+                break;
         }
     }
 }
