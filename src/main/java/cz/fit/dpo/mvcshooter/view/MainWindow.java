@@ -37,21 +37,13 @@ public class MainWindow extends JFrame {
             this.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent evt) {
-                    controller.handleKeyboardReleased(evt);
+                controller.handleKeyboardReleased(evt);
                 }
             });
-
             this.add(view.getCanvas());
             this.pack();
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
         }
-        controller.runGame();
-    }
-    
-    public void showHelp() {
-        JOptionPane.showMessageDialog(this, 
-              "Controls: \n"
-              + "here goes some description...");
     }
 }

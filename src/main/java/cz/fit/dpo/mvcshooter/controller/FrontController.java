@@ -89,6 +89,12 @@ public class FrontController {
             case KeyEvent.VK_E:
                 model.addEnemy();
                 break;
+            case KeyEvent.VK_S:
+                model.swapSling();
+                break;
+            case KeyEvent.VK_F1:
+                view.showHelp();
+                break;
         }
     }
 

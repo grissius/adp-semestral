@@ -26,7 +26,6 @@ public class Model extends Subject {
     private List<Projectile> projectiles;
     private List<Enemy> enemies;
     private AbstractEnemyFactory enemyFactory;
-    private AbstractProjectileFactory projectileFactory;
     private Mode mode;
     private int score = 0;
 
@@ -71,13 +70,13 @@ public class Model extends Subject {
     private void turnRealistic() {
         mode = Mode.REALISTIC;
         this.enemyFactory = new RealisticEnemyFactory(getWidth(), getHeight());
-        this.projectileFactory = new RealisticProjectileFactory();
+        this.getSling().setProjectileFactory(new RealisticProjectileFactory());
     }
 
     private void turnSimple() {
         mode = Mode.SIMPLE;
         this.enemyFactory = new SimpleEnemyFactory(getWidth(), getHeight());
-        this.projectileFactory = new SimpleProjectileFactory();
+        this.getSling().setProjectileFactory(new SimpleProjectileFactory());
     }
 
     public float getGravity() {
@@ -97,7 +96,7 @@ public class Model extends Subject {
     }
 
     public void fire(int firePower) {
-        this.projectiles.add(projectileFactory.create(getSling(), firePower));
+        this.projectiles.addAll(getSling().fire(firePower));
     }
 
     public synchronized List<GameObject> getObjects() {
@@ -165,7 +164,11 @@ public class Model extends Subject {
         msg += "\n";
         msg += "Score: " + score;
         msg += "\n";
-        msg += "Sling angle: " + getSling().getDisplayAngle();
+        msg += getSling().getUserMsg();
         return msg;
+    }
+
+    public void swapSling() {
+        getSling().swapStates();
     }
 }

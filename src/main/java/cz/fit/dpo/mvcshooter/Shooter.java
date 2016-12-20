@@ -17,6 +17,7 @@ public class Shooter {
         View view = new View(model);
         final FrontController controller = new FrontController(model, view);
         model.registerObserver(view);
+        controller.runGame();
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override

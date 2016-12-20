@@ -1,13 +1,13 @@
 package cz.fit.dpo.mvcshooter.model.object.projectile;
 
-import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
+import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 
 /**
  * Created by smolijar on 10/25/16.
  */
 public class RealisticProjectile extends Projectile {
-    public RealisticProjectile(Sling sling, int power) {
-        super(sling, power);
+    public RealisticProjectile(Vector from, float angle, int power) {
+        super(from, angle, power);
     }
 
     @Override

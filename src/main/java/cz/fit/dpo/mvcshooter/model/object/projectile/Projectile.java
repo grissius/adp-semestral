@@ -1,5 +1,6 @@
 package cz.fit.dpo.mvcshooter.model.object.projectile;
 
+import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
 import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
@@ -8,14 +9,13 @@ import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
  * Created by smolijar on 10/25/16.
  */
 public class Projectile extends GameObject {
-    public Projectile(Sling sling, int power) {
+    public Projectile(Vector from, float angle, int power) {
         super();
         size.setX(30);
         size.setY(29);
-        location.setX(sling.getLocation().getX());
-        location.setY(sling.getLocation().getY());
-        direction.setX(power*Math.cos(sling.getAngle()));
-        direction.setY(power*Math.sin(sling.getAngle()));
+        location = new Vector(from);
+        direction.setX(power*Math.cos(angle));
+        direction.setY(power*Math.sin(angle));
         bounded = false;
     }
 

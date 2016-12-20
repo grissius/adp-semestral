@@ -2,7 +2,7 @@ package cz.fit.dpo.mvcshooter.view;
 
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
