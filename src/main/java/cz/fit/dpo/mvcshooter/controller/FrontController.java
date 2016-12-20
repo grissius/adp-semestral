@@ -18,7 +18,6 @@ public class FrontController {
     private boolean TURNING_LEFT = false;
     private boolean TURNING_RIGHT = false;
     private boolean HOLDING_SPACE = false;
-    private long fireStart = 0;
 
     public FrontController(Model model, View view) {
         this.model = model;
@@ -44,7 +43,7 @@ public class FrontController {
         Thread thread = new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(33);
+                    Thread.sleep(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
