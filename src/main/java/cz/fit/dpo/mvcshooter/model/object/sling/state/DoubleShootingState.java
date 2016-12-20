@@ -14,8 +14,8 @@ public class DoubleShootingState implements SlingState {
     public List<Projectile> fire(Sling sling, int power) {
         float range = 0.3f;
         return Arrays.asList(
-                sling.getProjectileFactory().create(sling.getLocation(), sling.getAngle() + range/2, power),
-                sling.getProjectileFactory().create(sling.getLocation(), sling.getAngle() - range/2, power)
+                sling.getObjectFactory().createProjectile(sling.getLocation(), sling.getAngle() + range/2, power),
+                sling.getObjectFactory().createProjectile(sling.getLocation(), sling.getAngle() - range/2, power)
         );
     }
 }

@@ -1,18 +1,16 @@
 package cz.fit.dpo.mvcshooter.model;
 
-import cz.fit.dpo.mvcshooter.model.factory.enemy.AbstractEnemyFactory;
-import cz.fit.dpo.mvcshooter.model.factory.enemy.RealisticEnemyFactory;
-import cz.fit.dpo.mvcshooter.model.factory.enemy.SimpleEnemyFactory;
-import cz.fit.dpo.mvcshooter.model.factory.projectile.RealisticProjectileFactory;
-import cz.fit.dpo.mvcshooter.model.factory.projectile.SimpleProjectileFactory;
+import cz.fit.dpo.mvcshooter.model.factory.AbstractObjectFactory;
+import cz.fit.dpo.mvcshooter.model.factory.RealisticObjectFactory;
+import cz.fit.dpo.mvcshooter.model.factory.SimpleObjectFactory;
 import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.model.memento.Memento;
 import cz.fit.dpo.mvcshooter.model.memento.State;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
+import cz.fit.dpo.mvcshooter.model.object.pattern.observer.Subject;
 import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;
 import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
-import cz.fit.dpo.mvcshooter.model.object.pattern.observer.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ public class Model extends Subject {
     private Sling sling;
     private List<Projectile> projectiles;
     private List<Enemy> enemies;
-    private AbstractEnemyFactory enemyFactory;
+    private AbstractObjectFactory objectFactory;
     private Mode mode;
     private int score = 0;
     private int cooked = 0;
@@ -39,7 +37,7 @@ public class Model extends Subject {
     }
 
     public Model() {
-        this.battlefield = new Vector(800,500);
+        this.battlefield = new Vector(800, 500);
         this.gravity = 1;
         this.sling = new Sling(battlefield);
         this.projectiles = new ArrayList<>();
@@ -47,7 +45,7 @@ public class Model extends Subject {
         this.mode = Mode.REALISTIC;
         applyMode();
         for (int i = 0; i < 10; ++i) {
-            this.enemies.add(enemyFactory.create());
+            this.enemies.add(objectFactory.creteEnemy());
         }
     }
 
@@ -57,11 +55,10 @@ public class Model extends Subject {
     }
 
     public void loadGame() {
-        if(saved != null) {
+        if (saved != null) {
             setMemento(saved);
             notifyObservers();
-        }
-        else {
+        } else {
             System.out.println("No saved game");
         }
     }
@@ -73,7 +70,8 @@ public class Model extends Subject {
     public void setMemento(Memento memento) {
         State state = memento.getState();
         enemies = state.getEnemies().stream().map((e) -> e.clone()).collect(Collectors.toList());
-        projectiles = state.getProjectiles().stream().map((e) -> e.clone()).collect(Collectors.toList());;
+        projectiles = state.getProjectiles().stream().map((e) -> e.clone()).collect(Collectors.toList());
+        ;
         gravity = state.getGravity();
         battlefield = new Vector(state.getBattlefield());
         mode = state.getMode();
@@ -102,7 +100,7 @@ public class Model extends Subject {
     }
 
     public void spawnEnemy() {
-        enemies.add(enemyFactory.create());
+        enemies.add(objectFactory.creteEnemy());
         notifyObservers();
     }
 
@@ -126,7 +124,7 @@ public class Model extends Subject {
     }
 
     private void applyMode() {
-        if(mode == Mode.REALISTIC) {
+        if (mode == Mode.REALISTIC) {
             turnRealistic();
         } else {
             turnSimple();
@@ -134,13 +132,13 @@ public class Model extends Subject {
     }
 
     private void turnRealistic() {
-        this.enemyFactory = new RealisticEnemyFactory(battlefield);
-        this.getSling().setProjectileFactory(new RealisticProjectileFactory());
+        this.objectFactory = new RealisticObjectFactory(battlefield);
+        this.getSling().setFactory(objectFactory);
     }
 
     private void turnSimple() {
-        this.enemyFactory = new SimpleEnemyFactory(battlefield);
-        this.getSling().setProjectileFactory(new SimpleProjectileFactory());
+        this.objectFactory = new SimpleObjectFactory(battlefield);
+        this.getSling().setFactory(objectFactory);
     }
 
     public Sling getSling() {
@@ -184,7 +182,7 @@ public class Model extends Subject {
         }
         enemies.removeAll(enemiesToRemove);
         for (int i = 0; i < enemiesToRemove.size(); ++i) {
-            this.enemies.add(enemyFactory.create());
+            this.enemies.add(objectFactory.creteEnemy());
         }
         return (projectilesToRemove.size() + enemiesToRemove.size()) != 0;
     }
@@ -203,7 +201,7 @@ public class Model extends Subject {
         // remove projectiles and enemies, replanish enemies
         changed |= removeAddObjects();
 
-        if(cooked != 0) {
+        if (cooked != 0) {
             cooked++;
         }
 
@@ -228,7 +226,7 @@ public class Model extends Subject {
         } else if (mode == Mode.SIMPLE) {
             msg += "Simple mode";
         }
-        msg += ", Gravity: " + (float)Math.round(gravity * 10) / 10;
+        msg += ", Gravity: " + (float) Math.round(gravity * 10) / 10;
         msg += "\n";
         msg += "Score: " + score;
         msg += "\n";

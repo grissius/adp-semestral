@@ -1,7 +1,6 @@
 package cz.fit.dpo.mvcshooter.model.memento;
 
 import cz.fit.dpo.mvcshooter.model.Model;
-import cz.fit.dpo.mvcshooter.model.factory.enemy.AbstractEnemyFactory;
 import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
 import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;

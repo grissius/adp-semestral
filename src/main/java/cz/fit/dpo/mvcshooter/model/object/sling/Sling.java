@@ -1,13 +1,13 @@
 package cz.fit.dpo.mvcshooter.model.object.sling;
 
-import cz.fit.dpo.mvcshooter.model.factory.projectile.AbstractProjectileFactory;
+import cz.fit.dpo.mvcshooter.model.factory.AbstractObjectFactory;
 import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
+import cz.fit.dpo.mvcshooter.model.object.pattern.visitor.Visitor;
 import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;
 import cz.fit.dpo.mvcshooter.model.object.sling.state.DoubleShootingState;
 import cz.fit.dpo.mvcshooter.model.object.sling.state.SingleShootingState;
 import cz.fit.dpo.mvcshooter.model.object.sling.state.SlingState;
-import cz.fit.dpo.mvcshooter.model.object.pattern.visitor.Visitor;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Sling extends GameObject {
 
-    private AbstractProjectileFactory projectileFactory;
+    private AbstractObjectFactory objectFactory;
     private SlingState state;
     private ActiveState activeState;
 
@@ -35,15 +35,15 @@ public class Sling extends GameObject {
         setSingleState();
     }
 
-    public Sling() {}
+    public Sling() {
+    }
 
     public Sling clone() {
         Sling sling = new Sling();
         sling.setAs(this);
-        if(activeState == ActiveState.SINGLE) {
+        if (activeState == ActiveState.SINGLE) {
             sling.setSingleState();
-        }
-        else {
+        } else {
             sling.setDoubleState();
         }
         return sling;
@@ -67,12 +67,12 @@ public class Sling extends GameObject {
         }
     }
 
-    public void setProjectileFactory(AbstractProjectileFactory projectileFactory) {
-        this.projectileFactory = projectileFactory;
+    public void setFactory(AbstractObjectFactory objectFactory) {
+        this.objectFactory = objectFactory;
     }
 
-    public AbstractProjectileFactory getProjectileFactory() {
-        return projectileFactory;
+    public AbstractObjectFactory getObjectFactory() {
+        return objectFactory;
     }
 
     public List<Projectile> fire(int power) {
@@ -97,10 +97,9 @@ public class Sling extends GameObject {
     public String getUserMsg() {
         String msg = "";
         msg += "Sling state: ";
-        if(activeState == ActiveState.SINGLE) {
+        if (activeState == ActiveState.SINGLE) {
             msg += "single";
-        }
-        else if(activeState == ActiveState.DOUBLE) {
+        } else if (activeState == ActiveState.DOUBLE) {
             msg += "double";
         }
         msg += ", angle: " + getDisplayAngle();
