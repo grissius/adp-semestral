@@ -51,12 +51,6 @@ public class FrontController {
                 }
                 model.tick();
                 handleInput();
-                try {
-                    Robot r = new Robot();
-                    r.keyRelease(KeyEvent.VK_ENTER);
-                } catch (AWTException e) {
-                    e.printStackTrace();
-                }
             }
         });
         thread.start();
