@@ -16,9 +16,9 @@ public class RealisticEnemy extends Enemy {
     }
 
     @Override
-    public synchronized boolean move(int w, int h) {
+    public synchronized boolean move(int w, int h, float gravity) {
         this.direction.addX(Math.random() * 0.2 - 0.1);
         this.direction.addY(Math.random() * 0.2 - 0.1);
-        return super.move(w, h);
+        return super.move(w, h, gravity);
     }
 }

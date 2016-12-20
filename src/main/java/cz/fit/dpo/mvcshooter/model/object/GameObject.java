@@ -25,7 +25,7 @@ public class GameObject implements VisitableElement {
         return new Vector(location.getX() - size.getX() / 2, location.getY() - size.getY() / 2);
     }
 
-    public synchronized boolean move(int w, int h) {
+    public synchronized boolean move(int w, int h, float gravity) {
         if(!direction.isZero()) {
             Vector lastLocation = new Vector(location);
             location.add(direction);

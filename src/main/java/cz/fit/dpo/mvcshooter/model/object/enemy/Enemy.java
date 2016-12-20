@@ -16,8 +16,8 @@ public abstract class Enemy extends GameObject {
     }
 
     @Override
-    public synchronized boolean move(int w, int h) {
+    public synchronized boolean move(int w, int h, float gravity) {
         turn((float) (Math.random())-0.5f);
-        return super.move(w, h);
+        return super.move(w, h, gravity);
     }
 }

@@ -14,5 +14,5 @@ public abstract class AbstractEnemyFactory {
         this.h = h;
     }
 
-    public abstract Enemy createEnemy();
+    public abstract Enemy create();
 }

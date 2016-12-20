@@ -13,7 +13,7 @@ public class RealisticEnemyFactory extends AbstractEnemyFactory {
     }
 
     @Override
-    public Enemy createEnemy() {
+    public Enemy create() {
         return new RealisticEnemy(w, h);
     }
 }

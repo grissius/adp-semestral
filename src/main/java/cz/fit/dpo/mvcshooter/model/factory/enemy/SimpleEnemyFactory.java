@@ -13,7 +13,7 @@ public class SimpleEnemyFactory extends AbstractEnemyFactory {
     }
 
     @Override
-    public Enemy createEnemy() {
+    public Enemy create() {
         return new SimpleEnemy(w, h);
     }
 }

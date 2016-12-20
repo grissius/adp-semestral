@@ -3,9 +3,13 @@ package cz.fit.dpo.mvcshooter.model;
 import cz.fit.dpo.mvcshooter.model.factory.enemy.AbstractEnemyFactory;
 import cz.fit.dpo.mvcshooter.model.factory.enemy.RealisticEnemyFactory;
 import cz.fit.dpo.mvcshooter.model.factory.enemy.SimpleEnemyFactory;
+import cz.fit.dpo.mvcshooter.model.factory.projectile.AbstractProjectileFactory;
+import cz.fit.dpo.mvcshooter.model.factory.projectile.RealisticProjectileFactory;
+import cz.fit.dpo.mvcshooter.model.factory.projectile.SimpleProjectileFactory;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
 import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;
+import cz.fit.dpo.mvcshooter.model.object.projectile.RealisticProjectile;
 import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
 import cz.fit.dpo.mvcshooter.pattern.observer.Subject;
 
@@ -23,24 +27,27 @@ public class Model extends Subject {
     private List<Projectile> projectiles;
     private List<Enemy> enemies;
     private AbstractEnemyFactory enemyFactory;
+    private AbstractProjectileFactory projectileFactory;
 
     public Model() {
-        this.gravity = 0;
+        this.gravity = 1;
         this.sling = new Sling();
         this.projectiles = new ArrayList<>();
         this.enemies = new ArrayList<>();
-        this.enemyFactory = new RealisticEnemyFactory(getWidth(), getHeight());
+        turnRealistic();
         for (int i = 0; i < 10; ++i) {
-            this.enemies.add(enemyFactory.createEnemy());
+            this.enemies.add(enemyFactory.create());
         }
     }
 
     public void turnRealistic() {
         this.enemyFactory = new RealisticEnemyFactory(getWidth(), getHeight());
+        this.projectileFactory = new RealisticProjectileFactory();
     }
 
     public void turnSimple() {
         this.enemyFactory = new SimpleEnemyFactory(getWidth(), getHeight());
+        this.projectileFactory = new SimpleProjectileFactory();
     }
 
     public float getGravity() {
@@ -60,7 +67,7 @@ public class Model extends Subject {
     }
 
     public void fire() {
-        this.projectiles.add(new Projectile(getSling()));
+        this.projectiles.add(projectileFactory.create(getSling()));
     }
 
     public synchronized List<GameObject> getObjects() {
@@ -81,7 +88,7 @@ public class Model extends Subject {
     public void tick() {
         boolean changed = false;
         for (GameObject o : getObjects()) {
-            changed |= o.move(getWidth(), getHeight());
+            changed |= o.move(getWidth(), getHeight(), gravity);
         }
 
         List<Projectile> removedProjectiles = new ArrayList<>();
@@ -110,9 +117,8 @@ public class Model extends Subject {
 
         enemies.removeAll(removedEnemies);
         for (int i = 0; i < removedEnemies.size(); ++i) {
-            this.enemies.add(enemyFactory.createEnemy());
+            this.enemies.add(enemyFactory.create());
         }
-
 
         if (changed) {
 //            System.out.print('.');
