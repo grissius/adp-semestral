@@ -11,7 +11,6 @@ public class GameObject implements VisitableElement {
     protected Vector size;
     protected Vector location;
     protected Vector direction;
-    protected float velocity;
     protected boolean bounded = true;
     private float angle = 0;
 
