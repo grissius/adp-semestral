@@ -25,6 +25,14 @@ public class GameObject implements VisitableElement {
         return new Vector(location.getX() - size.getX() / 2, location.getY() - size.getY() / 2);
     }
 
+    protected void setAs(GameObject other) {
+        this.angle = other.getAngle();
+        this.location = new Vector(other.location);
+        this.direction = new Vector(other.direction);
+        this.size = new Vector(other.size);
+        this.bounded = other.bounded;
+    }
+
     public synchronized boolean move(int w, int h, float gravity) {
         if(!direction.isZero()) {
             Vector lastLocation = new Vector(location);

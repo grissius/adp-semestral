@@ -10,6 +10,8 @@ public class RealisticEnemy extends Enemy {
         super(w, h);
     }
 
+    protected RealisticEnemy() {}
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visitRealisticEnemy(this);
@@ -20,5 +22,12 @@ public class RealisticEnemy extends Enemy {
         this.direction.addX(Math.random() * 0.2 - 0.1);
         this.direction.addY(Math.random() * 0.2 - 0.1);
         return super.move(w, h, gravity);
+    }
+
+    @Override
+    public Enemy clone() {
+        RealisticEnemy enemy = new RealisticEnemy();
+        enemy.setAs(this);
+        return enemy;
     }
 }

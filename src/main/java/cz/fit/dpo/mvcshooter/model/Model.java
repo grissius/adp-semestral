@@ -5,6 +5,8 @@ import cz.fit.dpo.mvcshooter.model.factory.enemy.RealisticEnemyFactory;
 import cz.fit.dpo.mvcshooter.model.factory.enemy.SimpleEnemyFactory;
 import cz.fit.dpo.mvcshooter.model.factory.projectile.RealisticProjectileFactory;
 import cz.fit.dpo.mvcshooter.model.factory.projectile.SimpleProjectileFactory;
+import cz.fit.dpo.mvcshooter.model.memento.Memento;
+import cz.fit.dpo.mvcshooter.model.memento.State;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
 import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;
@@ -13,6 +15,7 @@ import cz.fit.dpo.mvcshooter.pattern.observer.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by smolijar on 10/25/16.
@@ -28,8 +31,9 @@ public class Model extends Subject {
     private Mode mode;
     private int score = 0;
     private int cooked = 0;
+    private Memento saved;
 
-    private static enum Mode {
+    public static enum Mode {
         REALISTIC,
         SIMPLE
     }
@@ -39,10 +43,53 @@ public class Model extends Subject {
         this.sling = new Sling();
         this.projectiles = new ArrayList<>();
         this.enemies = new ArrayList<>();
-        turnRealistic();
+        this.mode = Mode.REALISTIC;
+        applyMode();
         for (int i = 0; i < 10; ++i) {
             this.enemies.add(enemyFactory.create());
         }
+    }
+
+    public void saveGame() {
+        saved = createMemento();
+        System.out.println("Game saved!");
+    }
+
+    public void loadGame() {
+        if(saved != null) {
+            setMemento(saved);
+            notifyObservers();
+        }
+        else {
+            System.out.println("No saved game");
+        }
+    }
+
+    public void setMemento(Memento memento) {
+        State state = memento.getState();
+        enemies = state.getEnemies().stream().map((e) -> e.clone()).collect(Collectors.toList());
+        projectiles = state.getProjectiles().stream().map((e) -> e.clone()).collect(Collectors.toList());;
+        gravity = state.getGravity();
+        height = state.getHeight();
+        width = state.getWidth();
+        mode = state.getMode();
+        sling = state.getSling().clone();
+        score = state.getScore();
+        applyMode();
+    }
+
+
+    public Memento createMemento() {
+        State state = new State();
+        state.setEnemies(enemies.stream().map((e) -> e.clone()).collect(Collectors.toList()));
+        state.setProjectiles(projectiles.stream().map((e) -> e.clone()).collect(Collectors.toList()));
+        state.setGravity(gravity);
+        state.setHeight(getHeight());
+        state.setWidth(getWidth());
+        state.setMode(mode);
+        state.setSling(getSling().clone());
+        state.setScore(score);
+        return new Memento(state);
     }
 
     public void resetObjects() {
@@ -56,15 +103,6 @@ public class Model extends Subject {
         notifyObservers();
     }
 
-    public void swapMode() {
-        if (mode == Mode.REALISTIC) {
-            turnSimple();
-        } else {
-            turnRealistic();
-        }
-        notifyObservers();
-    }
-
     public void startCooking() {
         this.cooked = 1;
     }
@@ -74,14 +112,30 @@ public class Model extends Subject {
         cooked = 0;
     }
 
+    public void swapMode() {
+        if (mode == Mode.REALISTIC) {
+            mode = Mode.SIMPLE;
+        } else {
+            mode = Mode.REALISTIC;
+        }
+        applyMode();
+        notifyObservers();
+    }
+
+    private void applyMode() {
+        if(mode == Mode.REALISTIC) {
+            turnRealistic();
+        } else {
+            turnSimple();
+        }
+    }
+
     private void turnRealistic() {
-        mode = Mode.REALISTIC;
         this.enemyFactory = new RealisticEnemyFactory(getWidth(), getHeight());
         this.getSling().setProjectileFactory(new RealisticProjectileFactory());
     }
 
     private void turnSimple() {
-        mode = Mode.SIMPLE;
         this.enemyFactory = new SimpleEnemyFactory(getWidth(), getHeight());
         this.getSling().setProjectileFactory(new SimpleProjectileFactory());
     }

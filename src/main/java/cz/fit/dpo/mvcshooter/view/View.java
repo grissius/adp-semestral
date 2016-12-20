@@ -26,7 +26,10 @@ public class View extends Observer {
                 "m: change mode \n" +
                 "e: add enemy \n" +
                 "s: change sling state \n" +
-                "r: reset elements - remove all enemies and prjectiles";
+                "r: reset elements - remove all enemies and prjectiles \n" +
+                "f1: help \n" +
+                "f5: save game (in memory) \n" +
+                "f9: load game (last saved)";
         JOptionPane.showMessageDialog(canvas, help);
     }
 

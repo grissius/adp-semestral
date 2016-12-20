@@ -10,8 +10,18 @@ public class SimpleEnemy extends Enemy {
         super(w,h);
     }
 
+    protected SimpleEnemy() {}
+
+
     @Override
     public void accept(Visitor visitor) {
         visitor.visitSimpleEnemy(this);
+    }
+
+    @Override
+    public Enemy clone() {
+        SimpleEnemy enemy = new SimpleEnemy();
+        enemy.setAs(this);
+        return enemy;
     }
 }

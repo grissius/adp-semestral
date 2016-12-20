@@ -23,6 +23,16 @@ public class Projectile extends GameObject {
         this.strategy = strategy;
     }
 
+    private Projectile() {}
+
+    @Override
+    public Projectile clone() {
+        Projectile projectile = new Projectile();
+        projectile.setAs(this);
+        projectile.strategy = this.strategy;
+        return projectile;
+    }
+
     @Override
     public synchronized boolean move(int w, int h, float gravity) {
         this.direction.add(strategy.getDirection(gravity));

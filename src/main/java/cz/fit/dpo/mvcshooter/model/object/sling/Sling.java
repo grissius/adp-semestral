@@ -34,6 +34,18 @@ public class Sling extends GameObject {
         setSingleState();
     }
 
+    public Sling clone() {
+        Sling sling = new Sling();
+        sling.setAs(this);
+        if(activeState == ActiveState.SINGLE) {
+            sling.setSingleState();
+        }
+        else {
+            sling.setDoubleState();
+        }
+        return sling;
+    }
+
     private void setSingleState() {
         this.activeState = ActiveState.SINGLE;
         this.state = new SingleShootingState();

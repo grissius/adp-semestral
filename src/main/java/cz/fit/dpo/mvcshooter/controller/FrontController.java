@@ -91,6 +91,12 @@ public class FrontController {
             case KeyEvent.VK_F1:
                 view.showHelp();
                 break;
+            case KeyEvent.VK_F5:
+                model.saveGame();
+                break;
+            case KeyEvent.VK_F9:
+                model.loadGame();
+                break;
         }
     }
 
