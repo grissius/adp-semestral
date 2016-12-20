@@ -28,6 +28,7 @@ public class Model extends Subject {
     private AbstractEnemyFactory enemyFactory;
     private Mode mode;
     private int score = 0;
+    private long fireCookingStart;
 
     private static enum Mode {
         REALISTIC,
@@ -65,6 +66,22 @@ public class Model extends Subject {
             turnRealistic();
         }
         notifyObservers();
+    }
+
+    public void startCooking() {
+        this.fireCookingStart = System.currentTimeMillis();
+    }
+
+    private int getFirepower() {
+        if(fireCookingStart == 0) {
+            return 0;
+        }
+        return (int)(System.currentTimeMillis() - this.fireCookingStart) / 100 + 2;
+    }
+
+    public void cookingRelease() {
+        fire(getFirepower());
+        fireCookingStart = 0;
     }
 
     private void turnRealistic() {
@@ -156,6 +173,15 @@ public class Model extends Subject {
 
     public String createHudText() {
         String msg = "";
+
+        msg += getSling().getUserMsg();
+        msg += "\n";
+        msg += "Firepower: ";
+        for (int i = 0; i < getFirepower(); i++) {
+            msg += "#";
+        }
+        msg += "\n";
+
         if (mode == Mode.REALISTIC) {
             msg += "Realistic mode";
         } else if (mode == Mode.SIMPLE) {
@@ -164,7 +190,6 @@ public class Model extends Subject {
         msg += "\n";
         msg += "Score: " + score;
         msg += "\n";
-        msg += getSling().getUserMsg();
         return msg;
     }
 

@@ -18,6 +18,7 @@ public class FrontController {
     private boolean GOING_DOWN = false;
     private boolean TURNING_LEFT = false;
     private boolean TURNING_RIGHT = false;
+    private boolean HOLDING_SPACE = false;
     private long fireStart = 0;
 
     public FrontController(Model model, View view) {
@@ -76,8 +77,9 @@ public class FrontController {
                 TURNING_RIGHT = true;
                 break;
             case KeyEvent.VK_SPACE:
-                if(fireStart == 0) {
-                    this.fireStart = System.currentTimeMillis();
+                if(!HOLDING_SPACE) {
+                    HOLDING_SPACE = true;
+                    this.model.startCooking();
                 }
                 break;
             case KeyEvent.VK_M:
@@ -113,9 +115,8 @@ public class FrontController {
                 TURNING_RIGHT = false;
                 break;
             case KeyEvent.VK_SPACE:
-                int firePower = (int)(System.currentTimeMillis() - fireStart) / 100 + 2;
-                this.fireStart = 0;
-                model.fire(firePower);
+                model.cookingRelease();
+                HOLDING_SPACE = false;
                 break;
         }
     }
