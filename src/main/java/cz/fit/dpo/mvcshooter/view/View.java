@@ -29,7 +29,8 @@ public class View extends Observer {
                 "r: reset elements - remove all enemies and prjectiles \n" +
                 "f1: help \n" +
                 "f5: save game (in memory) \n" +
-                "f9: load game (last saved)";
+                "f9: load game (last saved) \n" +
+                "q / w: adjust gravity \n";
         JOptionPane.showMessageDialog(canvas, help);
     }
 

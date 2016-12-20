@@ -43,7 +43,7 @@ public class FrontController {
         Thread thread = new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(25);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -85,6 +85,12 @@ public class FrontController {
                 break;
             case KeyEvent.VK_S:
                 model.swapSling();
+                break;
+            case KeyEvent.VK_Q:
+                model.addGravity(-1);
+                break;
+            case KeyEvent.VK_W:
+                model.addGravity(1);
                 break;
             case KeyEvent.VK_F1:
                 view.showHelp();

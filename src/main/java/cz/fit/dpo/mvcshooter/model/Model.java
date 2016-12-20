@@ -189,6 +189,10 @@ public class Model extends Subject {
         return (projectilesToRemove.size() + enemiesToRemove.size()) != 0;
     }
 
+    public void addGravity(int value) {
+        gravity += (float) value / 10;
+    }
+
     public void tick() {
         boolean changed = false;
         // move
@@ -224,6 +228,7 @@ public class Model extends Subject {
         } else if (mode == Mode.SIMPLE) {
             msg += "Simple mode";
         }
+        msg += ", Gravity: " + (float)Math.round(gravity * 10) / 10;
         msg += "\n";
         msg += "Score: " + score;
         msg += "\n";
