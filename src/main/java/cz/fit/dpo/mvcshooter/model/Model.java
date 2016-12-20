@@ -3,7 +3,6 @@ package cz.fit.dpo.mvcshooter.model;
 import cz.fit.dpo.mvcshooter.model.factory.enemy.AbstractEnemyFactory;
 import cz.fit.dpo.mvcshooter.model.factory.enemy.RealisticEnemyFactory;
 import cz.fit.dpo.mvcshooter.model.factory.enemy.SimpleEnemyFactory;
-import cz.fit.dpo.mvcshooter.model.factory.projectile.AbstractProjectileFactory;
 import cz.fit.dpo.mvcshooter.model.factory.projectile.RealisticProjectileFactory;
 import cz.fit.dpo.mvcshooter.model.factory.projectile.SimpleProjectileFactory;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
@@ -28,14 +27,12 @@ public class Model extends Subject {
     private AbstractEnemyFactory enemyFactory;
     private Mode mode;
     private int score = 0;
-    private long fireCookingStart;
+    private int cooked = 0;
 
     private static enum Mode {
         REALISTIC,
         SIMPLE
     }
-
-    ;
 
     public Model() {
         this.gravity = 1;
@@ -69,19 +66,12 @@ public class Model extends Subject {
     }
 
     public void startCooking() {
-        this.fireCookingStart = System.currentTimeMillis();
-    }
-
-    private int getFirepower() {
-        if(fireCookingStart == 0) {
-            return 0;
-        }
-        return (int)(System.currentTimeMillis() - this.fireCookingStart) / 100 + 2;
+        this.cooked = 1;
     }
 
     public void cookingRelease() {
-        fire(getFirepower());
-        fireCookingStart = 0;
+        fire(cooked);
+        cooked = 0;
     }
 
     private void turnRealistic() {
@@ -96,20 +86,8 @@ public class Model extends Subject {
         this.getSling().setProjectileFactory(new SimpleProjectileFactory());
     }
 
-    public float getGravity() {
-        return gravity;
-    }
-
-    public void setGravity(float gravity) {
-        this.gravity = gravity;
-    }
-
     public Sling getSling() {
         return sling;
-    }
-
-    public void setSling(Sling sling) {
-        this.sling = sling;
     }
 
     public void fire(int firePower) {
@@ -131,39 +109,49 @@ public class Model extends Subject {
         return height;
     }
 
-    public void tick() {
-        boolean changed = false;
-        for (GameObject o : getObjects()) {
-            changed |= o.move(getWidth(), getHeight(), gravity);
-        }
-
-        List<Projectile> removedProjectiles = new ArrayList<>();
+    private boolean removeAddObjects() {
+        List<Projectile> projectilesToRemove = new ArrayList<>();
         for (Projectile p : projectiles) {
             if (p.outOfField(getWidth(), getHeight())) {
-                removedProjectiles.add(p);
+                projectilesToRemove.add(p);
             }
         }
-        projectiles.removeAll(removedProjectiles);
+        projectiles.removeAll(projectilesToRemove);
 
-        List<Enemy> removedEnemies = new ArrayList<>();
+        List<Enemy> enemiesToRemove = new ArrayList<>();
         for (Enemy e : enemies) {
             if (e.outOfField(getWidth(), getHeight())) {
-                removedEnemies.add(e);
+                enemiesToRemove.add(e);
             }
         }
 
         for (Projectile p : projectiles) {
             for (Enemy e : enemies) {
                 if (p.collides(e)) {
-                    removedEnemies.add(e);
+                    enemiesToRemove.add(e);
                     score++;
                 }
             }
         }
-
-        enemies.removeAll(removedEnemies);
-        for (int i = 0; i < removedEnemies.size(); ++i) {
+        enemies.removeAll(enemiesToRemove);
+        for (int i = 0; i < enemiesToRemove.size(); ++i) {
             this.enemies.add(enemyFactory.create());
+        }
+        return (projectilesToRemove.size() + enemiesToRemove.size()) != 0;
+    }
+
+    public void tick() {
+        boolean changed = false;
+        // move
+        for (GameObject o : getObjects()) {
+            changed |= o.move(getWidth(), getHeight(), gravity);
+        }
+
+        // remove projectiles and enemies, replanish enemies
+        changed |= removeAddObjects();
+
+        if(cooked != 0) {
+            cooked++;
         }
 
         if (changed) {
@@ -177,7 +165,7 @@ public class Model extends Subject {
         msg += getSling().getUserMsg();
         msg += "\n";
         msg += "Firepower: ";
-        for (int i = 0; i < getFirepower(); i++) {
+        for (int i = 0; i < cooked; i++) {
             msg += "#";
         }
         msg += "\n";
