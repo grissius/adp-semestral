@@ -39,9 +39,9 @@ public class Model extends Subject {
     }
 
     public Model() {
-        this.battlefield = new Vector(500,500);
+        this.battlefield = new Vector(800,500);
         this.gravity = 1;
-        this.sling = new Sling();
+        this.sling = new Sling(battlefield);
         this.projectiles = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.mode = Mode.REALISTIC;

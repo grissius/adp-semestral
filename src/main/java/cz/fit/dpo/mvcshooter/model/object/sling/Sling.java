@@ -26,14 +26,16 @@ public class Sling extends GameObject {
         DOUBLE
     }
 
-    public Sling() {
+    public Sling(Vector battlefield) {
         super();
         size.setX(25);
         size.setY(69);
-        location.setX(10);
-        location.setY(250);
+        location.setX(25);
+        location.setY(battlefield.getY() / 2);
         setSingleState();
     }
+
+    public Sling() {}
 
     public Sling clone() {
         Sling sling = new Sling();
