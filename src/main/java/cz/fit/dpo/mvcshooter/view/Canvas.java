@@ -35,6 +35,12 @@ public class Canvas extends JPanel {
         for (GameObject o: model.getObjects()) {
             drawer.drawGameObject(g, o);
         }
+        int textx = 15;
+        int texty = 10;
+
+        for (String s: model.createHudText().split("\n")) {
+            g.drawString(s, textx, texty += g.getFontMetrics().getHeight());
+        }
     }
     
 }

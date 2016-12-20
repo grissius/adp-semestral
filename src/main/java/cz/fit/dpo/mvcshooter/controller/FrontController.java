@@ -11,12 +11,33 @@ import java.awt.event.KeyEvent;
  */
 public class FrontController {
 
-    Model model;
-    View view;
+    private Model model;
+    private View view;
+
+    private boolean GOING_UP = false;
+    private boolean GOING_DOWN = false;
+    private boolean TURNING_LEFT = false;
+    private boolean TURNING_RIGHT = false;
+    private long fireStart = 0;
 
     public FrontController(Model model, View view) {
         this.model = model;
         this.view = view;
+    }
+
+    private void handleInput() {
+        if(GOING_UP) {
+            model.getSling().carry(-1);
+        }
+        if(GOING_DOWN) {
+            model.getSling().carry(1);
+        }
+        if(TURNING_LEFT) {
+            model.getSling().turn(-1);
+        }
+        if(TURNING_RIGHT) {
+            model.getSling().turn(1);
+        }
     }
 
     public void runGame() {
@@ -28,6 +49,7 @@ public class FrontController {
                     e.printStackTrace();
                 }
                 model.tick();
+                handleInput();
                 try {
                     Robot r = new Robot();
                     r.keyRelease(KeyEvent.VK_ENTER);
@@ -39,30 +61,55 @@ public class FrontController {
         thread.start();
     }
 
-    public void handleKeyboard(KeyEvent e) {
+    public void handleKeyboardPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                model.getSling().carry(-1);
+                GOING_UP = true;
                 break;
             case KeyEvent.VK_DOWN:
-                model.getSling().carry(1);
+                GOING_DOWN = true;
                 break;
             case KeyEvent.VK_LEFT:
-                model.getSling().turn(-1);
+                TURNING_LEFT = true;
                 break;
             case KeyEvent.VK_RIGHT:
-                model.getSling().turn(1);
+                TURNING_RIGHT = true;
                 break;
             case KeyEvent.VK_SPACE:
-                model.fire();
+                if(fireStart == 0) {
+                    this.fireStart = System.currentTimeMillis();
+                }
+                break;
+            case KeyEvent.VK_M:
+                model.swapMode();
                 break;
             case KeyEvent.VK_R:
-                model.turnRealistic();
-                System.out.println("realistic mode");
+                model.resetObjects();
                 break;
-            case KeyEvent.VK_S:
-                model.turnSimple();
-                System.out.println("simple mode");
+            case KeyEvent.VK_E:
+                model.addEnemy();
+                break;
+        }
+    }
+
+    public void handleKeyboardReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                GOING_UP = false;
+                break;
+            case KeyEvent.VK_DOWN:
+                GOING_DOWN = false;
+                break;
+            case KeyEvent.VK_LEFT:
+                TURNING_LEFT = false;
+                break;
+            case KeyEvent.VK_RIGHT:
+                TURNING_RIGHT = false;
+                break;
+            case KeyEvent.VK_SPACE:
+                int firePower = (int)(System.currentTimeMillis() - fireStart) / 100 + 2;
+                this.fireStart = 0;
+                model.fire(firePower);
                 break;
         }
     }

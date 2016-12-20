@@ -8,5 +8,5 @@ import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
  * Created by smolijar on 12/19/16.
  */
 public abstract class AbstractProjectileFactory {
-    public abstract Projectile create(Sling sling);
+    public abstract Projectile create(Sling sling, int power);
 }

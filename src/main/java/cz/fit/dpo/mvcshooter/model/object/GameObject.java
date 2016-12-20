@@ -66,4 +66,8 @@ public class GameObject implements VisitableElement {
     public float getAngle() {
         return angle;
     }
+
+    public String getDisplayAngle() {
+        return "" + (int)(angle == 0 ? angle : - Math.toDegrees(angle) % 360) + "°";
+    }
 }

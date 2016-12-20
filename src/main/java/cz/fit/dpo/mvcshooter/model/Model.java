@@ -9,7 +9,6 @@ import cz.fit.dpo.mvcshooter.model.factory.projectile.SimpleProjectileFactory;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
 import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;
-import cz.fit.dpo.mvcshooter.model.object.projectile.RealisticProjectile;
 import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
 import cz.fit.dpo.mvcshooter.pattern.observer.Subject;
 
@@ -28,6 +27,15 @@ public class Model extends Subject {
     private List<Enemy> enemies;
     private AbstractEnemyFactory enemyFactory;
     private AbstractProjectileFactory projectileFactory;
+    private Mode mode;
+    private int score = 0;
+
+    private static enum Mode {
+        REALISTIC,
+        SIMPLE
+    }
+
+    ;
 
     public Model() {
         this.gravity = 1;
@@ -40,12 +48,34 @@ public class Model extends Subject {
         }
     }
 
-    public void turnRealistic() {
+    public void resetObjects() {
+        projectiles.clear();
+        enemies.clear();
+        notifyObservers();
+    }
+
+    public void addEnemy() {
+        enemies.add(enemyFactory.create());
+        notifyObservers();
+    }
+
+    public void swapMode() {
+        if (mode == Mode.REALISTIC) {
+            turnSimple();
+        } else {
+            turnRealistic();
+        }
+        notifyObservers();
+    }
+
+    private void turnRealistic() {
+        mode = Mode.REALISTIC;
         this.enemyFactory = new RealisticEnemyFactory(getWidth(), getHeight());
         this.projectileFactory = new RealisticProjectileFactory();
     }
 
-    public void turnSimple() {
+    private void turnSimple() {
+        mode = Mode.SIMPLE;
         this.enemyFactory = new SimpleEnemyFactory(getWidth(), getHeight());
         this.projectileFactory = new SimpleProjectileFactory();
     }
@@ -66,8 +96,8 @@ public class Model extends Subject {
         this.sling = sling;
     }
 
-    public void fire() {
-        this.projectiles.add(projectileFactory.create(getSling()));
+    public void fire(int firePower) {
+        this.projectiles.add(projectileFactory.create(getSling(), firePower));
     }
 
     public synchronized List<GameObject> getObjects() {
@@ -110,7 +140,7 @@ public class Model extends Subject {
             for (Enemy e : enemies) {
                 if (p.collides(e)) {
                     removedEnemies.add(e);
-                    System.out.println("Score");
+                    score++;
                 }
             }
         }
@@ -121,8 +151,21 @@ public class Model extends Subject {
         }
 
         if (changed) {
-//            System.out.print('.');
             notifyObservers();
         }
+    }
+
+    public String createHudText() {
+        String msg = "";
+        if (mode == Mode.REALISTIC) {
+            msg += "Realistic mode";
+        } else if (mode == Mode.SIMPLE) {
+            msg += "Simple mode";
+        }
+        msg += "\n";
+        msg += "Score: " + score;
+        msg += "\n";
+        msg += "Sling angle: " + getSling().getDisplayAngle();
+        return msg;
     }
 }

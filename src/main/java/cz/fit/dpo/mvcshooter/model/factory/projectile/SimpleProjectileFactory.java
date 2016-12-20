@@ -10,7 +10,7 @@ import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
  */
 public class SimpleProjectileFactory extends AbstractProjectileFactory {
     @Override
-    public Projectile create(Sling sling) {
-        return new SimpleProjectile(sling);
+    public Projectile create(Sling sling, int power) {
+        return new SimpleProjectile(sling, power);
     }
 }

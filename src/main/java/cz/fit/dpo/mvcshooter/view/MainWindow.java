@@ -31,8 +31,13 @@ public class MainWindow extends JFrame {
             this.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent evt) {
-                    // delegate to controller
-                    controller.handleKeyboard(evt);
+                    controller.handleKeyboardPressed(evt);
+                }
+            });
+            this.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent evt) {
+                    controller.handleKeyboardReleased(evt);
                 }
             });
 

@@ -8,7 +8,7 @@ import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
  * Created by smolijar on 10/25/16.
  */
 public class SimpleProjectile extends Projectile {
-    public SimpleProjectile(Sling sling) {
-        super(sling);
+    public SimpleProjectile(Sling sling, int power) {
+        super(sling, power);
     }
 }
