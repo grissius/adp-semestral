@@ -60,7 +60,10 @@ public class GameObject implements VisitableElement {
     }
 
     public void turn(float value) {
-        this.angle += value / 10;
+        value /= 10;
+        if(Math.abs(this.angle + value) < 3.2) {
+            this.angle += value;
+        }
     }
 
     public float getAngle() {
