@@ -1,12 +1,13 @@
 package cz.fit.dpo.mvcshooter.model.object.sling;
 
 import cz.fit.dpo.mvcshooter.model.factory.projectile.AbstractProjectileFactory;
+import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;
 import cz.fit.dpo.mvcshooter.model.object.sling.state.DoubleShootingState;
 import cz.fit.dpo.mvcshooter.model.object.sling.state.SingleShootingState;
 import cz.fit.dpo.mvcshooter.model.object.sling.state.SlingState;
-import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
+import cz.fit.dpo.mvcshooter.model.object.pattern.visitor.Visitor;
 
 import java.util.List;
 
@@ -77,9 +78,9 @@ public class Sling extends GameObject {
     }
 
     @Override
-    public synchronized boolean move(int w, int h, float gravity) {
+    public synchronized boolean move(Vector battlefield, float gravity) {
         direction.diminish(1.2);
-        return super.move(w, h, gravity);
+        return super.move(battlefield, gravity);
     }
 
     public synchronized void carry(int value) {

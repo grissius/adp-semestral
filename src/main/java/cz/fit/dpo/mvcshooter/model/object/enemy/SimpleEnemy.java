@@ -1,13 +1,14 @@
 package cz.fit.dpo.mvcshooter.model.object.enemy;
 
-import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
+import cz.fit.dpo.mvcshooter.model.geometry.Vector;
+import cz.fit.dpo.mvcshooter.model.object.pattern.visitor.Visitor;
 
 /**
  * Created by smolijar on 12/19/16.
  */
 public class SimpleEnemy extends Enemy {
-    public SimpleEnemy(int w, int h) {
-        super(w,h);
+    public SimpleEnemy(Vector battlefield) {
+        super(battlefield);
     }
 
     protected SimpleEnemy() {}

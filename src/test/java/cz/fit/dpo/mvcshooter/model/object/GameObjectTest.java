@@ -17,7 +17,7 @@ public class GameObjectTest {
         sling.accept(visitor);
         double initialY = visitor.getLocation().getY();
         sling.carry(1);
-        sling.move(500, 500, 0);
+        sling.move(new Vector(500,500), 0);
         sling.accept(visitor);
         double movedY = visitor.getLocation().getY();
         assert initialY != movedY;

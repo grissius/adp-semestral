@@ -3,7 +3,6 @@ package cz.fit.dpo.mvcshooter.controller;
 import cz.fit.dpo.mvcshooter.model.Model;
 import cz.fit.dpo.mvcshooter.view.View;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
@@ -83,7 +82,7 @@ public class FrontController {
                 model.resetObjects();
                 break;
             case KeyEvent.VK_E:
-                model.addEnemy();
+                model.spawnEnemy();
                 break;
             case KeyEvent.VK_S:
                 model.swapSling();

@@ -1,5 +1,6 @@
 package cz.fit.dpo.mvcshooter.model.factory.enemy;
 
+import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
 import cz.fit.dpo.mvcshooter.model.object.enemy.SimpleEnemy;
 
@@ -8,12 +9,12 @@ import cz.fit.dpo.mvcshooter.model.object.enemy.SimpleEnemy;
  */
 public class SimpleEnemyFactory extends AbstractEnemyFactory {
 
-    public SimpleEnemyFactory(int w, int h) {
-        super(w, h);
+    public SimpleEnemyFactory(Vector battlefield) {
+        super(battlefield);
     }
 
     @Override
     public Enemy create() {
-        return new SimpleEnemy(w, h);
+        return new SimpleEnemy(battlefield);
     }
 }

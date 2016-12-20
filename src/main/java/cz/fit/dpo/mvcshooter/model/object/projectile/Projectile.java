@@ -3,8 +3,7 @@ package cz.fit.dpo.mvcshooter.model.object.projectile;
 import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.projectile.strategy.ProjectileStrategy;
-import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
-import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
+import cz.fit.dpo.mvcshooter.model.object.pattern.visitor.Visitor;
 
 /**
  * Created by smolijar on 10/25/16.
@@ -34,9 +33,9 @@ public class Projectile extends GameObject {
     }
 
     @Override
-    public synchronized boolean move(int w, int h, float gravity) {
+    public synchronized boolean move(Vector battlefield, float gravity) {
         this.direction.add(strategy.getDirection(gravity));
-        return super.move(w, h, gravity);
+        return super.move(battlefield, gravity);
     }
 
     @Override

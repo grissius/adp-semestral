@@ -1,4 +1,4 @@
-package cz.fit.dpo.mvcshooter.pattern.visitor;
+package cz.fit.dpo.mvcshooter.model.object.pattern.visitor;
 
 /**
  * Created by smolijar on 12/19/16.

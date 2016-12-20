@@ -1,4 +1,4 @@
-package cz.fit.dpo.mvcshooter.pattern.observer;
+package cz.fit.dpo.mvcshooter.model.object.pattern.observer;
 
 import java.util.HashSet;
 import java.util.Set;

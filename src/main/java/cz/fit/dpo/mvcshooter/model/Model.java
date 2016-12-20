@@ -5,13 +5,14 @@ import cz.fit.dpo.mvcshooter.model.factory.enemy.RealisticEnemyFactory;
 import cz.fit.dpo.mvcshooter.model.factory.enemy.SimpleEnemyFactory;
 import cz.fit.dpo.mvcshooter.model.factory.projectile.RealisticProjectileFactory;
 import cz.fit.dpo.mvcshooter.model.factory.projectile.SimpleProjectileFactory;
+import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.model.memento.Memento;
 import cz.fit.dpo.mvcshooter.model.memento.State;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;
 import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
 import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;
 import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
-import cz.fit.dpo.mvcshooter.pattern.observer.Subject;
+import cz.fit.dpo.mvcshooter.model.object.pattern.observer.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,7 @@ import java.util.stream.Collectors;
  */
 public class Model extends Subject {
     private float gravity;
-    private int width = 500;
-    private int height = 500;
+    private Vector battlefield;
     private Sling sling;
     private List<Projectile> projectiles;
     private List<Enemy> enemies;
@@ -39,6 +39,7 @@ public class Model extends Subject {
     }
 
     public Model() {
+        this.battlefield = new Vector(500,500);
         this.gravity = 1;
         this.sling = new Sling();
         this.projectiles = new ArrayList<>();
@@ -65,13 +66,16 @@ public class Model extends Subject {
         }
     }
 
+    public Vector getBattlefield() {
+        return battlefield;
+    }
+
     public void setMemento(Memento memento) {
         State state = memento.getState();
         enemies = state.getEnemies().stream().map((e) -> e.clone()).collect(Collectors.toList());
         projectiles = state.getProjectiles().stream().map((e) -> e.clone()).collect(Collectors.toList());;
         gravity = state.getGravity();
-        height = state.getHeight();
-        width = state.getWidth();
+        battlefield = new Vector(state.getBattlefield());
         mode = state.getMode();
         sling = state.getSling().clone();
         score = state.getScore();
@@ -84,8 +88,7 @@ public class Model extends Subject {
         state.setEnemies(enemies.stream().map((e) -> e.clone()).collect(Collectors.toList()));
         state.setProjectiles(projectiles.stream().map((e) -> e.clone()).collect(Collectors.toList()));
         state.setGravity(gravity);
-        state.setHeight(getHeight());
-        state.setWidth(getWidth());
+        state.setBattlefield(new Vector(battlefield));
         state.setMode(mode);
         state.setSling(getSling().clone());
         state.setScore(score);
@@ -98,7 +101,7 @@ public class Model extends Subject {
         notifyObservers();
     }
 
-    public void addEnemy() {
+    public void spawnEnemy() {
         enemies.add(enemyFactory.create());
         notifyObservers();
     }
@@ -131,12 +134,12 @@ public class Model extends Subject {
     }
 
     private void turnRealistic() {
-        this.enemyFactory = new RealisticEnemyFactory(getWidth(), getHeight());
+        this.enemyFactory = new RealisticEnemyFactory(battlefield);
         this.getSling().setProjectileFactory(new RealisticProjectileFactory());
     }
 
     private void turnSimple() {
-        this.enemyFactory = new SimpleEnemyFactory(getWidth(), getHeight());
+        this.enemyFactory = new SimpleEnemyFactory(battlefield);
         this.getSling().setProjectileFactory(new SimpleProjectileFactory());
     }
 
@@ -155,18 +158,10 @@ public class Model extends Subject {
         return objects;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
     private boolean removeAddObjects() {
         List<Projectile> projectilesToRemove = new ArrayList<>();
         for (Projectile p : projectiles) {
-            if (p.outOfField(getWidth(), getHeight())) {
+            if (p.outOfField(battlefield)) {
                 projectilesToRemove.add(p);
             }
         }
@@ -174,7 +169,7 @@ public class Model extends Subject {
 
         List<Enemy> enemiesToRemove = new ArrayList<>();
         for (Enemy e : enemies) {
-            if (e.outOfField(getWidth(), getHeight())) {
+            if (e.outOfField(battlefield)) {
                 enemiesToRemove.add(e);
             }
         }
@@ -198,7 +193,7 @@ public class Model extends Subject {
         boolean changed = false;
         // move
         for (GameObject o : getObjects()) {
-            changed |= o.move(getWidth(), getHeight(), gravity);
+            changed |= o.move(battlefield, gravity);
         }
 
         // remove projectiles and enemies, replanish enemies

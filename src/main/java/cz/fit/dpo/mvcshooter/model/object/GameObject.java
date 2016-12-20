@@ -1,8 +1,8 @@
 package cz.fit.dpo.mvcshooter.model.object;
 
 import cz.fit.dpo.mvcshooter.model.geometry.Vector;
-import cz.fit.dpo.mvcshooter.pattern.visitor.VisitableElement;
-import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
+import cz.fit.dpo.mvcshooter.model.object.pattern.visitor.VisitableElement;
+import cz.fit.dpo.mvcshooter.model.object.pattern.visitor.Visitor;
 
 /**
  * Created by smolijar on 10/25/16.
@@ -32,11 +32,11 @@ public class GameObject implements VisitableElement {
         this.bounded = other.bounded;
     }
 
-    public synchronized boolean move(int w, int h, float gravity) {
+    public synchronized boolean move(Vector battlefield, float gravity) {
         if(!direction.isZero()) {
             Vector lastLocation = new Vector(location);
             location.add(direction);
-            if(bounded && outOfField(w, h)) {
+            if(bounded && outOfField(battlefield)) {
                 location = lastLocation;
                 return false;
             }
@@ -54,8 +54,8 @@ public class GameObject implements VisitableElement {
         visitor.visitGameObject(this);
     }
 
-    public boolean outOfField(int w, int h) {
-        return location.getX() > w || location.getX() < 0 || location.getY() > h || location.getY() < 0;
+    public boolean outOfField(Vector battlefield) {
+        return location.getX() > battlefield.getX() || location.getX() < 0 || location.getY() > battlefield.getY() || location.getY() < 0;
     }
 
     public Vector getLocation() {

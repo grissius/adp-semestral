@@ -32,12 +32,13 @@ public class Canvas extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        // objects
         for (GameObject o: model.getObjects()) {
             drawer.drawGameObject(g, o);
         }
+        // text
         int textx = 15;
         int texty = 10;
-
         for (String s: model.createHudText().split("\n")) {
             g.drawString(s, textx, texty += g.getFontMetrics().getHeight());
         }

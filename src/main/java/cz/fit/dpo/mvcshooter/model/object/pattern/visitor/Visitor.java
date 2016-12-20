@@ -1,4 +1,4 @@
-package cz.fit.dpo.mvcshooter.pattern.visitor;
+package cz.fit.dpo.mvcshooter.model.object.pattern.visitor;
 
 import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
 import cz.fit.dpo.mvcshooter.model.object.GameObject;

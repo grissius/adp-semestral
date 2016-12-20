@@ -4,7 +4,7 @@ import cz.fit.dpo.mvcshooter.model.geometry.Vector;
 import cz.fit.dpo.mvcshooter.model.object.enemy.Enemy;
 import cz.fit.dpo.mvcshooter.model.object.projectile.Projectile;
 import cz.fit.dpo.mvcshooter.model.object.sling.Sling;
-import cz.fit.dpo.mvcshooter.pattern.visitor.Visitor;
+import cz.fit.dpo.mvcshooter.model.object.pattern.visitor.Visitor;
 
 /**
  * Created by smolijar on 12/20/16.

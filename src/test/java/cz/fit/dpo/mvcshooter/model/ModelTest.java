@@ -33,7 +33,7 @@ public class ModelTest {
         }
         Memento m2 = model.createMemento();
         for (int i = 0; i < 10; ++i) {
-            model.addEnemy();
+            model.spawnEnemy();
         }
         Memento m3 = model.createMemento();
 
